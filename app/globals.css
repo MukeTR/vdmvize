@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+/* ============================================================
+   VDM Vize Danışmanlık — LIGHT theme
+   Warm paper / passport / boarding-pass, gold + sky accents.
+   The globe lives in a dark "night-sky" porthole for contrast.
+   ============================================================ */
+
+@theme {
+  /* surfaces (light) */
+  --color-ink: #f7f3eb;        /* page background — warm ivory */
+  --color-ink-2: #fffdf8;      /* raised band */
+  --color-ink-3: #ffffff;      /* cards */
+  --color-paper: #f1eadc;      /* subtle panel */
+  --color-surface-2: #efe8da;  /* deeper ivory band (footer, process) */
+  --color-hairline: #e7e0d2;   /* light border */
+  --color-hairline-2: #d8cfbd; /* stronger border */
+
+  /* dark elements on the light page */
+  --color-night: #0b1428;      /* globe porthole + boarding-pass stub */
+  --color-night-2: #101c36;
+  --color-cloud-night: #eef3fc;/* text on night panels */
+  --color-mist-night: #9fb0cc;
+
+  /* text (dark, on light) */
+  --color-cloud: #14203c;      /* strong headings */
+  --color-mist: #495472;       /* body */
+  --color-mist-2: #737c92;     /* muted / captions */
+
+  /* accents */
+  --color-gold: #e8b24c;       /* bright brand gold — fills, decor, borders */
+  --color-gold-ink: #916410;   /* readable gold TEXT on light */
+  --color-gold-deep: #7a560c;
+  --color-sky: #1c7fb2;        /* readable sky — links, eyebrow */
+  --color-sky-bright: #5ac8fa; /* on-night arcs */
+  --color-stamp: #c0402b;      /* ink-stamp red */
+  --color-wa: #22b85c;         /* whatsapp — fills */
+  --color-wa-ink: #0e7a3c;     /* whatsapp — text on light */
+
+  --font-display: var(--font-sora);
+  --font-body: var(--font-inter);
+  --font-mono: var(--font-mono-tkt);
+  --font-serif: var(--font-serif-logo);
+
+  --radius-card: 18px;
+}
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  border-color: var(--color-hairline);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-cloud);
+  font-family: var(--font-body), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-night);
+}
+
+/* --- warm paper page texture --- */
+.paper-bg {
+  background:
+    radial-gradient(1100px 600px at 82% -8%, rgba(232, 178, 76, 0.12), transparent 58%),
+    radial-gradient(900px 620px at -5% 6%, rgba(28, 127, 178, 0.07), transparent 55%),
+    var(--color-ink);
+}
+
+/* --- the night-sky porthole that holds the globe --- */
+.night-panel {
+  background:
+    radial-gradient(120% 120% at 70% 10%, rgba(90, 200, 250, 0.16), transparent 55%),
+    radial-gradient(120% 120% at 20% 90%, rgba(232, 178, 76, 0.1), transparent 55%),
+    linear-gradient(180deg, #0b1428 0%, #0a1120 100%);
+}
+
+/* --- logo wordmark --- */
+.logo-mark {
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: linear-gradient(175deg, #f4d488 0%, #e8b24c 34%, #b8860b 68%, #8a6410 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  line-height: 0.9;
+}
+.logo-sub {
+  font-family: var(--font-mono), monospace;
+  color: var(--color-gold-deep);
+  letter-spacing: 0.24em;
+}
+
+/* --- mono flight-data --- */
+.ticket {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: 0.02em;
+}
+
+.eyebrow {
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: var(--color-sky);
+  display: flex;
+  align-items: center;
+}
+
+/* --- perforation for boarding pass (dots on light) --- */
+.perforation {
+  background-image: radial-gradient(circle, var(--color-hairline-2) 1.6px, transparent 1.7px);
+  background-size: 12px 14px;
+  background-repeat: repeat-y;
+  background-position: center;
+}
+
+/* --- marquee --- */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee 42s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* --- dashed route line --- */
+.route-dash {
+  background-image: repeating-linear-gradient(90deg, var(--color-gold) 0 8px, transparent 8px 16px);
+  opacity: 0.55;
+}
+
+/* --- scroll reveal --- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal { opacity: 0; }
+.reveal.in { animation: rise 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards; }
+
+/* --- stamp --- */
+.stamp {
+  color: var(--color-stamp);
+  border: 2.5px solid var(--color-stamp);
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.16em;
+  transform: rotate(-11deg);
+  opacity: 0.9;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 2px rgba(192, 64, 43, 0.22);
+}
+
+/* --- pulsing whatsapp dot --- */
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(34, 184, 92, 0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(34, 184, 92, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 184, 92, 0); }
+}
+.live-dot { animation: pulse-ring 2.2s infinite; }
+
+/* --- gold CTA --- */
+.btn-gold {
+  background: linear-gradient(180deg, #f0c163 0%, #e8b24c 45%, #cf9a30 100%);
+  color: #2a1e07;
+  box-shadow: 0 10px 26px -10px rgba(207, 154, 48, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+.btn-gold:hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+}
+
+/* --- article/prose styling --- */
+.prose-vdm { color: var(--color-mist); font-size: 1.05rem; line-height: 1.8; }
+.prose-vdm h2 {
+  font-family: var(--font-display), sans-serif;
+  color: var(--color-cloud);
+  font-weight: 700;
+  font-size: 1.7rem;
+  line-height: 1.2;
+  margin: 2.4rem 0 0.9rem;
+  letter-spacing: -0.01em;
+}
+.prose-vdm h3 {
+  font-family: var(--font-display), sans-serif;
+  color: var(--color-cloud);
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin: 1.8rem 0 0.6rem;
+}
+.prose-vdm p { margin: 0 0 1.1rem; }
+.prose-vdm ul { margin: 0 0 1.2rem; padding-left: 0; list-style: none; }
+.prose-vdm ul li {
+  position: relative;
+  padding-left: 1.6rem;
+  margin-bottom: 0.6rem;
+}
+.prose-vdm ul li::before {
+  content: "✈";
+  position: absolute;
+  left: 0;
+  top: 0.05rem;
+  color: var(--color-gold-ink);
+  font-size: 0.85rem;
+}
+.prose-vdm strong { color: var(--color-cloud); font-weight: 600; }
+.prose-vdm blockquote {
+  border-left: 3px solid var(--color-gold);
+  background: var(--color-ink-2);
+  padding: 1rem 1.3rem;
+  border-radius: 0 12px 12px 0;
+  margin: 1.6rem 0;
+  color: var(--color-cloud);
+  font-style: italic;
+}
+
+/* --- passport stamp drop-in --- */
+@keyframes stamp-in {
+  0% { opacity: 0; transform: rotate(-26deg) scale(1.9); }
+  55% { opacity: 1; transform: rotate(-9deg) scale(0.92); }
+  75% { transform: rotate(-13deg) scale(1.03); }
+  100% { transform: rotate(-11deg) scale(1); }
+}
+.stamp-drop { opacity: 0; }
+.stamp-drop.in { animation: stamp-in 0.7s cubic-bezier(0.3, 1.4, 0.5, 1) forwards; }
+
+/* --- draw a route line on scroll --- */
+@keyframes draw {
+  from { stroke-dashoffset: var(--len); }
+  to { stroke-dashoffset: 0; }
+}
+.route-draw.in path {
+  animation: draw 2s ease forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee-track, .live-dot { animation: none; }
+  .reveal, .stamp-drop { opacity: 1; animation: none; }
+  .route-draw path { stroke-dashoffset: 0 !important; animation: none; }
+}
