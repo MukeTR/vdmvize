@@ -24,6 +24,7 @@ export default function HizmetlerPage() {
           </>
         }
         subtitle="Belge hazırlığından zor açılan randevulara, mülakat provasından seyahat planlamasına kadar sürecin her adımında yanınızdayız. Hizmetlerimizi kısa tuttuk — gerisini birlikte konuşalım."
+        route="IST → DÜNYA"
         crumbs={[{ label: "Anasayfa", href: "/" }, { label: "Hizmetler" }]}
       />
 
