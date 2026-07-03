@@ -5,7 +5,8 @@ import Logo from "@/components/ui/Logo";
 
 const NAV = [
   { label: "Hakkımızda", href: "/hakkimizda" },
-  { label: "Hizmetler", href: "/#hizmetler" },
+  { label: "Hizmetler", href: "/hizmetler" },
+  { label: "Kurumsal", href: "/kurumsal" },
   { label: "Blog", href: "/blog" },
   { label: "Haberler", href: "/haberler" },
   { label: "İletişim", href: "/#iletisim" },

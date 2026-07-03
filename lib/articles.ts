@@ -1,16 +1,20 @@
 // Auto-generated article content for VDM Vize Danışmanlık.
 export type Article = {
-  slug: string;
-  kind: "blog" | "haber";
-  tag: string;
-  title: string;
-  date: string;
-  readingMinutes: number;
-  excerpt: string;
-  bodyHtml: string;
+  slug: string; kind: "blog" | "haber"; tag: string; title: string;
+  date: string; readingMinutes: number; excerpt: string; bodyHtml: string;
 };
 
 export const articles: Article[] = [
+  {
+    "slug": "sirketler-icin-toplu-kurumsal-vize",
+    "kind": "blog",
+    "tag": "Kurumsal",
+    "title": "Şirketler İçin Toplu ve Kurumsal Vize Süreci Nasıl Yönetilir?",
+    "date": "2026-06-28",
+    "readingMinutes": 5,
+    "excerpt": "Çok sayıda çalışanın vize başvurusunu aynı anda yönetmek, tek tek bireysel süreçlerden çok farklıdır. Fuar delegasyonları, ihracat görüşmeleri ve kurumsal seyahatlerde toplu vize sürecini planlı, izlenebilir ve gecikmesiz yürütmenin yollarını İK ve seyahat yöneticileri için adım adım ele alıyoruz.",
+    "bodyHtml": "<p>Bir fuara delegasyon göndermek, yurt dışındaki bir müşteriyle görüşmeye ekip çıkarmak ya da yeni bir pazarda saha ekibi kurmak; bunların hepsinin ortak bir görünmez adımı vardır: vize. Tek bir çalışanın başvurusunu takip etmek yönetilebilir bir iştir, ancak aynı takvimde on, yirmi ya da daha fazla kişinin randevusunu, evrağını ve seyahat tarihini eş zamanlı yürütmek tamamen farklı bir disiplindir. Kurumsal vize sürecinde asıl fark, evrak toplamakta değil; süreci öngörülebilir, izlenebilir ve gecikmeye yer bırakmayacak şekilde tasarlamakta ortaya çıkar.</p>\n\n<h2>Kurumsal vize süreci bireysel başvurudan neden farklıdır?</h2>\n<p>Bireysel başvuruda tek bir kişinin evrağı ve takvimi vardır. Kurumsal başvuruda ise İK, muhasebe, seyahat sorumlusu ve çalışanların kendisi aynı sürecin farklı parçalarını tutar. Bir kişinin eksik belgesi tüm delegasyonun randevu bloğunu riske atabilir; bir konsolosluğun randevu kontenjanı dolduğunda ise seyahat tarihi sabit olan bir fuar katılımı tehlikeye girer.</p>\n<p>Bu yüzden toplu süreçlerde öne çıkan başlıklar farklıdır:</p>\n<ul>\n<li><strong>Takvim baskısı:</strong> Fuar, kongre veya müşteri ziyareti tarihi sabittir; süreç bu tarihe göre geriye doğru kurgulanmalıdır.</li>\n<li><strong>Çok sayıda muhatap:</strong> Farklı departmanlar, farklı seyahat geçmişine sahip çalışanlar ve zaman zaman birden fazla konsolosluk aynı anda yönetilir.</li>\n<li><strong>Kurumsal sorumluluk:</strong> Başvuruyu şirket organize ettiği için sonuç da doğrudan operasyonel bir riski etkiler.</li>\n<li><strong>Belge tutarlılığı:</strong> Görev yazıları, davetiyeler ve mali belgeler kurum çapında tutarlı ve doğru hazırlanmalıdır.</li>\n</ul>\n\n<h2>Toplu vize sürecini adım adım planlamak</h2>\n<p>İyi yönetilen bir kurumsal vize süreci, seyahat kararının verildiği gün başlar; başvuru gününde değil. Süreci geriye doğru planlamak, konsolosluk yoğunluğu ve randevu kontenjanı gibi kontrol dışı değişkenlere karşı en güçlü korumadır. Genel çerçeve şu adımlarda toplanır:</p>\n<ul>\n<li><strong>Kapsamın netleştirilmesi:</strong> Kaç çalışan, hangi ülke, hangi vize tipi ve hangi tarih aralığı için başvuracak.</li>\n<li><strong>Çalışan profillerinin ayrıştırılması:</strong> Daha önce vize almış, ilk kez başvuran veya farklı pasaporta sahip çalışanlar farklı hazırlık gerektirir.</li>\n<li><strong>Belge setinin standartlaştırılması:</strong> Kurum tarafından üretilen görev ve teyit yazılarının tek bir formatta hazırlanması.</li>\n<li><strong>Randevu ve takvim yönetimi:</strong> Seyahat tarihine güvenli bir tampon bırakacak şekilde randevuların planlanması.</li>\n<li><strong>Başvuru ve takip:</strong> Süreç boyunca durumun tek bir noktadan izlenmesi ve şirkete düzenli bilgi verilmesi.</li>\n</ul>\n\n<h2>İK ve seyahat yöneticisinin üstündeki yükü azaltmak</h2>\n<p>Toplu başvurularda en çok zaman kaybettiren şey, bilginin dağınık olmasıdır. Her çalışanın hangi belgeyi tamamladığını e-posta zincirlerinden takip etmek, İK ekibini asli işinden uzaklaştırır. Kurumsal vize danışmanlığının temel katkısı da tam olarak burada devreye girer: süreci tek bir muhatap üzerinden yürüterek şirket içindeki koordinasyon yükünü ortadan kaldırmak.</p>\n<blockquote>Toplu vize sürecinde başarı, en hızlı başvuruyu yapmakta değil; hiçbir çalışanı ve hiçbir tarihi gözden kaçırmayacak bir düzen kurmakta gizlidir.</blockquote>\n<p>Tek muhatap modeli, İK ve seyahat yöneticisine somut bir rahatlık sağlar. Çalışanlara tek tek belge hatırlatması yapmak, randevuları ayrı ayrı ayarlamak ve her aşamada durum sormak yerine, süreç boyunca konsolide bir tabloyla ilerlenir. Böylece departman, vize takibiyle değil, seyahatin asıl amacıyla ilgilenmeye devam eder.</p>\n\n<h2>Fuar ve delegasyon başvurularında dikkat edilmesi gerekenler</h2>\n<p>Messe fuarları, kongreler ve toplu iş görüşmeleri, kurumsal vize sürecinin en hassas alanıdır; çünkü tarih kaymaz. Bir delegasyon için başvuru yaparken şu noktalar öne çıkar:</p>\n<ul>\n<li><strong>Davet ve organizasyon belgeleri:</strong> Fuar veya etkinlik davetlerinin, katılımı doğrulayacak şekilde eksiksiz olması.</li>\n<li><strong>Erken planlama:</strong> Yoğun fuar sezonlarında randevu kontenjanları hızla dolabildiği için sürecin mümkün olan en erken tarihte başlatılması.</li>\n<li><strong>Grup tutarlılığı:</strong> Aynı seyahatte yer alacak çalışanların başvurularının birbirini destekleyecek biçimde hazırlanması.</li>\n<li><strong>Gizlilik:</strong> Çalışanlara ait kişisel ve mali belgelerin kurumsal gizlilik ilkeleriyle işlenmesi.</li>\n</ul>\n\n<h2>Sürecin izlenebilir ve raporlanabilir olması</h2>\n<p>Kurumsal bir işleyişte, \"başvuru yapıldı\" demek yeterli değildir; sürecin hangi aşamada olduğunun her an görünür olması gerekir. Düzenli süreç raporlaması, İK ve yönetim için birkaç açıdan değer üretir: seyahat planlamasının önceden yapılabilmesini sağlar, olası gecikmeleri erken görünür kılar ve faturalı kurumsal hizmet sayesinde muhasebe tarafında da düzenli bir kayıt oluşturur. Böylece vize, yönetilmesi zor bir belirsizlik olmaktan çıkıp planlanabilir bir operasyon adımına dönüşür.</p>\n\n<h2>Doğru danışmanlıkla süreci öngörülebilir kılmak</h2>\n<p>Toplu vize yönetiminde deneyim, en büyük farkı yaratan unsurdur. Farklı ülkelerin, farklı vize tiplerinin ve değişen konsolosluk uygulamalarının bir arada olduğu bir süreçte, daha önce benzer delegasyonları yönetmiş bir ekiple çalışmak, öngörülemez sürprizleri en aza indirir. Amaç, şirketin seyahat hedefini merkeze almak ve vizeyi bu hedefin önünde bir engel olmaktan çıkarmaktır.</p>\n\n<p>VDM Vize Danışmanlık Merkezi olarak, İstanbul Beyoğlu merkezimizden 20 yılı aşkın deneyimimizle şirketlerin toplu ve kurumsal vize süreçlerini tek muhatap anlayışıyla, öncelikli ve izlenebilir biçimde yönetiyoruz. Fuar delegasyonlarından çok çalışanlı iş seyahatlerine kadar kurumunuzun ihtiyacına uygun bir çözüm için ekibimizle iletişime geçin; başvuru hacminize özel kurumsal teklifinizi birlikte oluşturalım.</p>"
+  },
   {
     "slug": "schengen-vizesi-gerekli-belgeler",
     "kind": "blog",
@@ -75,7 +79,4 @@ export const articles: Article[] = [
 
 export const blogPosts = articles.filter((a) => a.kind === "blog");
 export const haberler = articles.filter((a) => a.kind === "haber");
-
-export function getArticle(slug: string) {
-  return articles.find((a) => a.slug === slug);
-}
+export function getArticle(slug: string) { return articles.find((a) => a.slug === slug); }

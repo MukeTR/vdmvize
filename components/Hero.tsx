@@ -1,77 +1,108 @@
 import { site } from "@/lib/site";
 import { FormButton, WhatsAppButton } from "@/components/ui/Cta";
 import GlobeMount from "@/components/globe/GlobeMount";
-import DepartureBoard from "@/components/DepartureBoard";
+import DepartureTicker from "@/components/DepartureTicker";
 
 export default function Hero() {
   return (
-    <section className="paper-bg relative overflow-hidden pt-28 pb-16 sm:pt-32 lg:pb-24">
+    <section className="paper-bg relative overflow-hidden">
       {/* faint warm grid */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage:
             "linear-gradient(#916410 1px, transparent 1px), linear-gradient(90deg, #916410 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-          maskImage: "radial-gradient(circle at 62% 34%, black, transparent 72%)",
+          backgroundSize: "62px 62px",
+          maskImage: "radial-gradient(circle at 26% 42%, black, transparent 62%)",
         }}
       />
 
-      <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
-        {/* left — the pitch */}
-        <div className="relative z-10 max-w-xl">
-          <p className="eyebrow mb-5 gap-2">
-            <span className="mr-2 h-px w-8 bg-[color:var(--color-sky)]/60" />
-            {site.city} · Vize Danışmanlığı
+      {/* GLOBE STAGE — bleeds on desktop, stacks on mobile */}
+      <div className="relative z-0 h-[52vh] w-full overflow-hidden lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[58%]">
+        <div className="night-panel relative h-full w-full overflow-hidden">
+          <div className="absolute inset-0 lg:left-[8%]">
+            <GlobeMount />
+          </div>
+
+          {/* clean ivory -> transparent seam (desktop only) */}
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 hidden w-[46%] lg:block"
+            style={{
+              background:
+                "linear-gradient(to right, var(--color-ink) 0%, rgba(247,243,235,0.85) 30%, rgba(247,243,235,0) 100%)",
+            }}
+          />
+
+          {/* floating glass stat chips — max two */}
+          <div className="pointer-events-none absolute left-6 top-[15%] hidden rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-md sm:block lg:left-[30%]">
+            <div className="font-[family-name:var(--font-display)] text-2xl font-bold text-[color:var(--color-gold)]">
+              20+
+            </div>
+            <div className="ticket text-[0.56rem] tracking-[0.16em] text-[color:var(--color-cloud-night)]">
+              YIL TECRÜBE
+            </div>
+          </div>
+          <div className="pointer-events-none absolute bottom-[16%] right-6 hidden rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-md sm:block lg:right-[12%]">
+            <div className="font-[family-name:var(--font-display)] text-2xl font-bold text-[color:var(--color-sky-bright)]">
+              9.500+
+            </div>
+            <div className="ticket text-[0.56rem] tracking-[0.16em] text-[color:var(--color-cloud-night)]">
+              BAŞARILI BAŞVURU
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CONTENT */}
+      <div className="relative z-10 mx-auto flex min-h-[86vh] max-w-7xl items-center px-5 pt-28 pb-10 sm:px-8 lg:pt-24 lg:pb-16">
+        <div className="max-w-xl lg:max-w-[38rem]">
+          <p className="hero-rise eyebrow mb-6 gap-2" style={{ animationDelay: "0ms" }}>
+            <span className="mr-2 h-px w-10 bg-[color:var(--color-sky)]/70" />
+            {site.city} · 2004&apos;ten beri
           </p>
 
-          <h1 className="font-[family-name:var(--font-display)] text-[2.6rem] font-bold leading-[1.02] tracking-tight text-[color:var(--color-cloud)] sm:text-6xl">
+          <h1
+            className="hero-rise font-[family-name:var(--font-display)] text-[3.1rem] font-extrabold leading-[0.98] tracking-[-0.03em] text-[color:var(--color-cloud)] sm:text-[4.6rem] lg:text-[5.3rem]"
+            style={{ animationDelay: "90ms" }}
+          >
             Vizeniz için
             <br />
-            <span className="text-[color:var(--color-gold-ink)]">doğru rota.</span>
+            <span className="relative inline-block text-[color:var(--color-gold-ink)]">
+              doğru rota
+              <svg className="absolute -bottom-2 left-0 w-full" height="12" viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden>
+                <path d="M2 8 Q150 2 298 7" fill="none" stroke="var(--color-gold)" strokeWidth="3.5" strokeLinecap="round" />
+              </svg>
+            </span>
+            .
           </h1>
 
-          <p className="mt-6 max-w-lg text-[1.05rem] leading-relaxed text-[color:var(--color-mist)]">
+          <p
+            className="hero-rise mt-8 max-w-lg text-[1.12rem] leading-relaxed text-[color:var(--color-mist)]"
+            style={{ animationDelay: "180ms" }}
+          >
             Schengen, İngiltere ve Amerika vizelerinde{" "}
             <span className="font-semibold text-[color:var(--color-cloud)]">
               20 yılı aşkın tecrübe.
             </span>{" "}
-            Profilinizi ücretsiz değerlendirelim, dosyanızı biz hazırlayalım, zor açılan
-            randevuyu sizin için bulalım.
+            Dosyanızı biz hazırlar, zor açılan randevuyu sizin için buluruz.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="hero-rise mt-9 flex flex-wrap items-center gap-3" style={{ animationDelay: "270ms" }}>
             <FormButton />
             <WhatsAppButton />
           </div>
-          <p className="mt-4 text-sm text-[color:var(--color-mist-2)]">
+          <p className="hero-rise mt-4 text-sm text-[color:var(--color-mist-2)]" style={{ animationDelay: "340ms" }}>
             ya da telefonla arayın{" "}
             <a href={site.phoneHref} className="ticket font-semibold text-[color:var(--color-sky)] hover:underline">
               {site.phoneDisplay}
             </a>
           </p>
-
-          <div className="mt-9 max-w-md">
-            <DepartureBoard />
-          </div>
         </div>
+      </div>
 
-        {/* right — the globe porthole */}
-        <div className="relative z-0">
-          <div className="night-panel relative mx-auto overflow-hidden rounded-[28px] border border-[color:var(--color-hairline-2)] shadow-[0_40px_90px_-45px_rgba(11,20,40,0.55)]">
-            <div className="relative mx-auto aspect-square w-full max-w-[560px]">
-              <GlobeMount />
-            </div>
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between px-5 py-3">
-              <span className="ticket text-[0.6rem] tracking-[0.24em] text-[color:var(--color-mist-night)]">
-                İSTANBUL → DÜNYA
-              </span>
-              <span className="ticket text-[0.6rem] tracking-[0.24em] text-[color:var(--color-mist-night)]">
-                40+ ÜLKE · CANLI ROTALAR
-              </span>
-            </div>
-          </div>
-        </div>
+      {/* full-width departure ticker */}
+      <div className="relative z-10">
+        <DepartureTicker />
       </div>
     </section>
   );
