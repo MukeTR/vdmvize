@@ -69,8 +69,8 @@ type Route = {
   __obj?: THREE.Sprite;
 };
 
-// planes literally fly these routes; arcs render all destinations
-const PLANE_CITIES = ["Paris", "Londra", "New York", "Atina", "Berlin"];
+// planes fly these routes — chosen to fan out across the globe (not bunch over Europe)
+const PLANE_CITIES = ["New York", "Londra", "Madrid", "Atina"];
 
 export default function GlobeScene() {
   const globeEl = useRef<any>(null);
@@ -154,12 +154,27 @@ export default function GlobeScene() {
 
   const globeMaterial = useMemo(() => {
     const m = new THREE.MeshPhongMaterial({
-      color: "#0f1e38",
-      emissive: "#081426",
-      emissiveIntensity: 1,
-      shininess: 4,
+      color: "#2f7db0", // soft ocean blue (not navy)
+      emissive: "#1b5480",
+      emissiveIntensity: 0.4,
+      shininess: 12,
     });
     return m;
+  }, []);
+
+  // green land — world countries drawn as hex dots
+  const [countries, setCountries] = useState<any[]>([]);
+  useEffect(() => {
+    let alive = true;
+    fetch("/countries.geojson")
+      .then((r) => r.json())
+      .then((d) => {
+        if (alive) setCountries(d.features || []);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
   }, []);
 
   // camera + controls setup
@@ -224,9 +239,15 @@ export default function GlobeScene() {
         backgroundColor="rgba(0,0,0,0)"
         globeMaterial={globeMaterial}
         showAtmosphere
-        atmosphereColor="#5ac8fa"
-        atmosphereAltitude={0.2}
-        showGraticules
+        atmosphereColor="#7fc7ea"
+        atmosphereAltitude={0.14}
+        // green continents (hex dots)
+        hexPolygonsData={countries}
+        hexPolygonResolution={3}
+        hexPolygonMargin={0.28}
+        hexPolygonUseDots
+        hexPolygonAltitude={0.004}
+        hexPolygonColor={() => "rgba(83, 201, 138, 0.9)"}
         // arcs (flight routes)
         arcsData={arcs}
         arcColor={"color" as any}
