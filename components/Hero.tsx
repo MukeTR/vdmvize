@@ -55,12 +55,6 @@ export default function Hero() {
             <FormButton />
             <WhatsAppButton />
           </div>
-          <p className="hero-rise mt-4 text-sm text-[color:var(--color-mist-2)]" style={{ animationDelay: "340ms" }}>
-            ya da telefonla arayın{" "}
-            <a href={site.phoneHref} className="ticket font-semibold text-[color:var(--color-sky)] hover:underline">
-              {site.phoneDisplay}
-            </a>
-          </p>
         </div>
       </div>
 

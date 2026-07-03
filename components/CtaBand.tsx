@@ -1,5 +1,4 @@
 import Reveal from "@/components/ui/Reveal";
-import { site } from "@/lib/site";
 import { FormButton, WhatsAppButton } from "@/components/ui/Cta";
 
 export default function CtaBand() {
@@ -25,12 +24,6 @@ export default function CtaBand() {
             <WhatsAppButton solid label="WhatsApp'tan yazın" />
             <FormButton label="Formu doldurun" />
           </div>
-          <p className="mt-4 text-sm text-[color:var(--color-mist-2)]">
-            veya doğrudan arayın:{" "}
-            <a href={site.phoneHref} className="ticket font-semibold text-[color:var(--color-gold-ink)] hover:underline">
-              {site.phoneDisplay}
-            </a>
-          </p>
         </Reveal>
       </div>
     </section>

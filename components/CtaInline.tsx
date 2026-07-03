@@ -1,4 +1,3 @@
-import { site } from "@/lib/site";
 import { FormButton, WhatsAppButton } from "@/components/ui/Cta";
 
 /** Reusable "push to contact" block for article & service pages. Max two buttons. */
@@ -26,12 +25,6 @@ export default function CtaInline({
           <WhatsAppButton solid message={wa} />
           <FormButton />
         </div>
-        <p className="mt-4 text-sm text-[color:var(--color-mist-night)]">
-          veya arayın:{" "}
-          <a href={site.phoneHref} className="ticket font-semibold text-[color:var(--color-gold)] hover:underline">
-            {site.phoneDisplay}
-          </a>
-        </p>
       </div>
     </aside>
   );
