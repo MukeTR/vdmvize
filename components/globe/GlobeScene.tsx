@@ -51,7 +51,7 @@ function makePlaneSprite() {
     map: tex,
     transparent: true,
     depthWrite: false,
-    depthTest: false,
+    depthTest: true, // let the globe occlude planes on the far side
   });
   const sprite = new THREE.Sprite(mat);
   sprite.scale.set(9, 9, 1);
@@ -184,11 +184,11 @@ export default function GlobeScene() {
     const controls = g.controls();
     controls.enableZoom = false;
     controls.enablePan = false;
-    controls.autoRotate = !reduced;
-    controls.autoRotateSpeed = 0.55;
-    controls.minPolarAngle = Math.PI / 3.4;
-    controls.maxPolarAngle = Math.PI / 1.7;
-    g.pointOfView({ lat: 32, lng: 24, altitude: 2.35 }, 0);
+    // keep the İstanbul→Europe/America hub facing the viewer so planes stay visible
+    controls.autoRotate = false;
+    controls.minPolarAngle = Math.PI / 3.2;
+    controls.maxPolarAngle = Math.PI / 1.8;
+    g.pointOfView({ lat: 40, lng: -16, altitude: 2.55 }, 0);
 
     // warmer key light
     const scene = g.scene();
