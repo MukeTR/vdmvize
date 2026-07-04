@@ -3,14 +3,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "@/components/ui/Logo";
+import SearchBar from "@/components/admin/SearchBar";
 import { signOutAction } from "@/app/admin/actions";
 
 const NAV = [
   { href: "/admin", label: "Panel", exact: true, icon: "M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10" },
   { href: "/admin/leads", label: "Leadler", icon: "M4 6h16M4 12h16M4 18h10" },
+  { href: "/admin/applications", label: "Başvurular", icon: "M9 12h6M9 16h6M9 8h6M7 3h7l5 5v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" },
   { href: "/admin/customers", label: "Müşteriler", icon: "M17 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6M21 20v-2a4 4 0 0 0-3-3.87" },
   { href: "/admin/reminders", label: "Hatırlatıcılar", icon: "M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0" },
+  { href: "/admin/tasks", label: "Görevler", icon: "M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" },
   { href: "/admin/reports", label: "Raporlar", icon: "M4 20V10M10 20V4M16 20v-7M22 20H2" },
+  { href: "/admin/team", label: "Ekip", icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" },
 ];
 
 export default function AdminShell({
@@ -66,7 +70,10 @@ export default function AdminShell({
         <p className="ticket mt-1 px-2 text-[0.55rem] tracking-[0.22em] text-[color:var(--color-mist-2)]">
           CRM PANELİ
         </p>
-        <nav className="mt-8 flex flex-1 flex-col gap-1">
+        <div className="mt-5">
+          <SearchBar />
+        </div>
+        <nav className="mt-5 flex flex-1 flex-col gap-1">
           <NavLinks />
         </nav>
         <div className="border-t border-[color:var(--color-hairline)] pt-4">

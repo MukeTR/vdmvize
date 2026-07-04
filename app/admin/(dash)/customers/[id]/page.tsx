@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { Card } from "@/components/admin/ui";
 import FileManager from "@/components/admin/FileManager";
-import { fmtDate, fmtDateTime, daysUntil, waLink, telLink } from "@/lib/crm";
+import { fmtDate, fmtDateTime, daysUntil, waLink, telLink, appStageMeta, fmtMoney } from "@/lib/crm";
 import { WaIcon, PhoneIcon } from "@/components/ui/Cta";
 import {
   addVisaAction,
@@ -26,7 +26,7 @@ export default async function CustomerDetail({ params }: { params: Promise<{ id:
   const { data: customer } = await supabase.from("customers").select("*").eq("id", id).single();
   if (!customer) notFound();
 
-  const [{ data: visas }, { data: activities }] = await Promise.all([
+  const [{ data: visas }, { data: activities }, { data: apps }] = await Promise.all([
     supabase.from("visas").select("*").eq("customer_id", id).order("valid_until", { ascending: false }),
     supabase
       .from("activities")
@@ -34,6 +34,7 @@ export default async function CustomerDetail({ params }: { params: Promise<{ id:
       .eq("entity_type", "customer")
       .eq("entity_id", id)
       .order("created_at", { ascending: false }),
+    supabase.from("applications").select("*").eq("customer_id", id).order("created_at", { ascending: false }),
   ]);
 
   const field =
@@ -60,8 +61,36 @@ export default async function CustomerDetail({ params }: { params: Promise<{ id:
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-        {/* left: visas + notes */}
+        {/* left: applications + visas + notes */}
         <div className="space-y-6">
+          <Card className="p-6">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-[color:var(--color-cloud)]">Başvurular</h2>
+              <Link href={`/admin/applications/new?customer=${id}`} className="ticket text-[0.66rem] font-semibold text-[color:var(--color-gold-ink)] hover:underline">
+                + Başvuru ekle
+              </Link>
+            </div>
+            <ul className="space-y-2.5">
+              {(apps ?? []).map((a) => {
+                const m = appStageMeta(a.stage);
+                return (
+                  <li key={a.id}>
+                    <Link href={`/admin/applications/${a.id}`} className="flex items-center justify-between rounded-xl border border-[color:var(--color-hairline)] px-4 py-3 hover:border-[color:var(--color-gold)]/50">
+                      <div>
+                        <div className="font-semibold text-[color:var(--color-cloud)]">{a.country}{a.visa_type ? ` · ${a.visa_type}` : ""}</div>
+                        <div className="ticket text-[0.66rem] text-[color:var(--color-mist-2)]">
+                          {a.appointment_at ? `📅 ${fmtDate(a.appointment_at)} · ` : ""}{fmtMoney(a.service_fee, a.currency)}
+                        </div>
+                      </div>
+                      <span className="rounded-full px-2.5 py-1 text-[0.66rem] font-semibold" style={{ background: `${m.color}1a`, color: m.color }}>{m.label}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+              {(!apps || apps.length === 0) && <li className="text-sm text-[color:var(--color-mist-2)]">Henüz başvuru yok.</li>}
+            </ul>
+          </Card>
+
           <Card className="p-6">
             <h2 className="mb-4 text-sm font-semibold text-[color:var(--color-cloud)]">Vizeler</h2>
             <ul className="space-y-3">

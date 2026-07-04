@@ -1,6 +1,6 @@
 import { createSupabaseServer } from "@/lib/supabase/server";
 import { PageTitle, StatCard, Card } from "@/components/admin/ui";
-import { LEAD_STATUSES, SOURCES, sourceLabel } from "@/lib/crm";
+import { LEAD_STATUSES, SOURCES, sourceLabel, APP_STAGES, OPEN_STAGES, fmtMoney } from "@/lib/crm";
 
 export const dynamic = "force-dynamic";
 
@@ -36,13 +36,18 @@ export default async function ReportsPage() {
   const today = new Date().toISOString().slice(0, 10);
   const in90 = new Date(Date.now() + 90 * 86400000).toISOString().slice(0, 10);
 
-  const [{ data: leads }, { count: customerCount }, { count: activeVisas }, { count: expiring90 }] =
+  const [{ data: leads }, { count: customerCount }, { count: expiring90 }, { data: apps }] =
     await Promise.all([
       supabase.from("leads").select("status,source,created_at"),
       supabase.from("customers").select("id", { count: "exact", head: true }),
-      supabase.from("visas").select("id", { count: "exact", head: true }).eq("status", "active"),
       supabase.from("visas").select("id", { count: "exact", head: true }).gte("valid_until", today).lte("valid_until", in90),
+      supabase.from("applications").select("stage,service_fee,currency"),
     ]);
+
+  const allApps = apps ?? [];
+  const expectedRevenue = allApps.filter((a) => OPEN_STAGES.includes(a.stage)).reduce((s, a) => s + Number(a.service_fee || 0), 0);
+  const wonRevenue = allApps.filter((a) => a.stage === "approved").reduce((s, a) => s + Number(a.service_fee || 0), 0);
+  const byStage = APP_STAGES.map((st) => ({ label: st.label, n: allApps.filter((a) => a.stage === st.key).length }));
 
   const all = leads ?? [];
   const total = all.length;
@@ -73,10 +78,10 @@ export default async function ReportsPage() {
       <PageTitle title="Raporlar" subtitle="Lead ve müşteri özetleri" />
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="Toplam lead" value={total} accent="var(--color-sky)" />
-        <StatCard label="Dönüşüm" value={`%${conversion}`} hint={`${won} kazanıldı / ${lost} kayıp`} />
-        <StatCard label="Müşteri" value={customerCount ?? 0} />
-        <StatCard label="90 günde dolan vize" value={expiring90 ?? 0} accent="var(--color-stamp)" hint={`${activeVisas ?? 0} aktif vize`} />
+        <StatCard label="Toplam lead" value={total} accent="var(--color-sky)" hint={`%${conversion} dönüşüm`} />
+        <StatCard label="Beklenen ciro" value={fmtMoney(expectedRevenue)} accent="var(--color-gold-ink)" hint="Açık başvurular" />
+        <StatCard label="Kazanılan ciro" value={fmtMoney(wonRevenue)} accent="var(--color-wa-ink)" hint="Onaylanan başvurular" />
+        <StatCard label="90 günde dolan vize" value={expiring90 ?? 0} accent="var(--color-stamp)" hint={`${customerCount ?? 0} müşteri`} />
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
@@ -94,6 +99,10 @@ export default async function ReportsPage() {
             <Bars data={bySource} color="var(--color-gold-ink)" />
           </Card>
         )}
+        <Card className="p-6">
+          <h2 className="mb-4 font-[family-name:var(--font-display)] text-lg font-semibold text-[color:var(--color-cloud)]">Başvuru aşamaları</h2>
+          <Bars data={byStage} color="var(--color-wa-ink)" />
+        </Card>
       </div>
     </>
   );

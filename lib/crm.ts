@@ -130,3 +130,81 @@ export function waLink(phone: string, message?: string) {
 export function telLink(phone: string) {
   return `tel:+${normalisePhone(phone)}`;
 }
+
+// ============================================================
+// v2 — applications (visa process), tasks
+// ============================================================
+
+export const APP_STAGES = [
+  { key: "on_review", label: "Ön değerlendirme", color: "#1c7fb2" },
+  { key: "collecting_docs", label: "Belge toplama", color: "#8a6d10" },
+  { key: "appointment_set", label: "Randevu alındı", color: "#7a4fc0" },
+  { key: "submitted", label: "Başvuruldu", color: "#c98a2e" },
+  { key: "awaiting_result", label: "Sonuç bekleniyor", color: "#b8860b" },
+  { key: "approved", label: "Onaylandı", color: "#0e7a3c" },
+  { key: "rejected", label: "Reddedildi", color: "#c0402b" },
+] as const;
+
+export type AppStage = (typeof APP_STAGES)[number]["key"];
+
+export function appStageMeta(key: string) {
+  return APP_STAGES.find((s) => s.key === key) ?? APP_STAGES[0];
+}
+
+export const OPEN_STAGES = ["on_review", "collecting_docs", "appointment_set", "submitted", "awaiting_result"];
+
+export const PRIORITIES = [
+  { key: "low", label: "Düşük", color: "#6c7d9c" },
+  { key: "normal", label: "Normal", color: "#1c7fb2" },
+  { key: "high", label: "Yüksek", color: "#c0402b" },
+] as const;
+
+export function priorityMeta(key: string) {
+  return PRIORITIES.find((p) => p.key === key) ?? PRIORITIES[1];
+}
+
+export const DEFAULT_DOCS = [
+  "Pasaport",
+  "Biyometrik fotoğraf",
+  "Banka dökümü",
+  "Seyahat sigortası",
+  "Otel rezervasyonu",
+  "Uçak bileti rezervasyonu",
+  "Görev / gelir belgesi",
+];
+
+export type Application = {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  customer_id: string;
+  country: string;
+  visa_type: string | null;
+  stage: string;
+  appointment_at: string | null;
+  submitted_at: string | null;
+  result_at: string | null;
+  service_fee: number;
+  currency: string;
+  priority: string;
+  assigned_to: string | null;
+  notes: string | null;
+};
+
+export type Task = {
+  id: string;
+  created_at: string;
+  title: string;
+  notes: string | null;
+  due_at: string | null;
+  done: boolean;
+  assigned_to: string | null;
+  related_type: string | null;
+  related_id: string | null;
+};
+
+export function fmtMoney(n: number | string | null | undefined, currency = "TRY") {
+  const v = Number(n ?? 0);
+  const sym = currency === "TRY" ? "₺" : currency === "EUR" ? "€" : currency === "USD" ? "$" : "";
+  return `${sym}${v.toLocaleString("tr-TR")}`;
+}

@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSupabaseServer } from "@/lib/supabase/server";
+import { createSupabaseAdmin } from "@/lib/supabase/admin";
+import { DEFAULT_DOCS } from "@/lib/crm";
 
 async function db() {
   const supabase = await createSupabaseServer();
@@ -164,4 +166,145 @@ export async function markReminderAction(formData: FormData) {
   await supabase.from("visa_reminders").update({ status }).eq("id", id);
   revalidatePath("/admin/reminders");
   revalidatePath("/admin");
+}
+
+// ============================================================
+// v2 — applications, documents, tasks, team
+// ============================================================
+
+// ---------- applications ----------
+export async function createApplicationAction(formData: FormData) {
+  const { supabase } = await db();
+  const customer_id = s(formData.get("customer_id"))!;
+  const { data: app } = await supabase
+    .from("applications")
+    .insert({
+      customer_id,
+      country: s(formData.get("country")),
+      visa_type: s(formData.get("visa_type")),
+      service_fee: Number(s(formData.get("service_fee")) ?? 0),
+      priority: s(formData.get("priority")) ?? "normal",
+      appointment_at: s(formData.get("appointment_at")),
+      notes: s(formData.get("notes")),
+    })
+    .select("id")
+    .single();
+
+  if (app) {
+    await supabase.from("application_documents").insert(
+      DEFAULT_DOCS.map((name, i) => ({ application_id: app.id, name, sort: i + 1 }))
+    );
+  }
+  revalidatePath("/admin/applications");
+  revalidatePath(`/admin/customers/${customer_id}`);
+  if (app) redirect(`/admin/applications/${app.id}`);
+}
+
+export async function updateApplicationStageAction(formData: FormData) {
+  const { supabase } = await db();
+  const id = s(formData.get("id"))!;
+  const stage = s(formData.get("stage"))!;
+  const patch: Record<string, unknown> = { stage };
+  if (stage === "submitted") patch.submitted_at = new Date().toISOString().slice(0, 10);
+  if (stage === "approved" || stage === "rejected")
+    patch.result_at = new Date().toISOString().slice(0, 10);
+  await supabase.from("applications").update(patch).eq("id", id);
+  revalidatePath("/admin/applications");
+  revalidatePath(`/admin/applications/${id}`);
+  revalidatePath("/admin");
+}
+
+export async function updateApplicationAction(formData: FormData) {
+  const { supabase } = await db();
+  const id = s(formData.get("id"))!;
+  await supabase
+    .from("applications")
+    .update({
+      country: s(formData.get("country")),
+      visa_type: s(formData.get("visa_type")),
+      appointment_at: s(formData.get("appointment_at")),
+      service_fee: Number(s(formData.get("service_fee")) ?? 0),
+      currency: s(formData.get("currency")) ?? "TRY",
+      priority: s(formData.get("priority")) ?? "normal",
+      assigned_to: s(formData.get("assigned_to")),
+      notes: s(formData.get("notes")),
+    })
+    .eq("id", id);
+  revalidatePath(`/admin/applications/${id}`);
+  revalidatePath("/admin/applications");
+}
+
+// ---------- application documents ----------
+export async function toggleDocumentAction(formData: FormData) {
+  const { supabase } = await db();
+  const id = s(formData.get("id"))!;
+  const application_id = s(formData.get("application_id"))!;
+  const collected = s(formData.get("collected")) === "true";
+  await supabase.from("application_documents").update({ collected: !collected }).eq("id", id);
+  revalidatePath(`/admin/applications/${application_id}`);
+}
+
+export async function addDocumentAction(formData: FormData) {
+  const { supabase } = await db();
+  const application_id = s(formData.get("application_id"))!;
+  const name = s(formData.get("name"));
+  if (!name) return;
+  await supabase.from("application_documents").insert({ application_id, name, sort: 99 });
+  revalidatePath(`/admin/applications/${application_id}`);
+}
+
+export async function deleteDocumentAction(formData: FormData) {
+  const { supabase } = await db();
+  const id = s(formData.get("id"))!;
+  const application_id = s(formData.get("application_id"))!;
+  await supabase.from("application_documents").delete().eq("id", id);
+  revalidatePath(`/admin/applications/${application_id}`);
+}
+
+// ---------- tasks ----------
+export async function createTaskAction(formData: FormData) {
+  const { supabase, user } = await db();
+  await supabase.from("tasks").insert({
+    title: s(formData.get("title")),
+    due_at: s(formData.get("due_at")),
+    assigned_to: s(formData.get("assigned_to")),
+    related_type: s(formData.get("related_type")),
+    related_id: s(formData.get("related_id")),
+    created_by: user.id,
+  });
+  revalidatePath("/admin/tasks");
+  revalidatePath("/admin");
+}
+
+export async function toggleTaskAction(formData: FormData) {
+  const { supabase } = await db();
+  const id = s(formData.get("id"))!;
+  const done = s(formData.get("done")) === "true";
+  await supabase.from("tasks").update({ done: !done }).eq("id", id);
+  revalidatePath("/admin/tasks");
+  revalidatePath("/admin");
+}
+
+export async function deleteTaskAction(formData: FormData) {
+  const { supabase } = await db();
+  await supabase.from("tasks").delete().eq("id", s(formData.get("id"))!);
+  revalidatePath("/admin/tasks");
+  revalidatePath("/admin");
+}
+
+// ---------- team ----------
+export async function inviteTeamMemberAction(formData: FormData) {
+  await db(); // ensure caller is authenticated
+  const email = s(formData.get("email"));
+  const password = s(formData.get("password"));
+  const full_name = s(formData.get("full_name"));
+  if (!email || !password) return;
+  const admin = createSupabaseAdmin();
+  await admin.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+    user_metadata: { full_name },
+  });
+  revalidatePath("/admin/team");
 }

@@ -35,3 +35,27 @@ insert into public.visas (customer_id, country, visa_type, issued_date, valid_un
 select c.id, 'İngiltere', 'Student', current_date - 350, current_date + 6, 'active' from c;
 
 select public.generate_visa_reminders();
+
+-- ---- v2: applications, document checklists, tasks ----
+insert into public.applications (customer_id, country, visa_type, stage, appointment_at, service_fee, priority, notes)
+select id, 'Fransa', 'Turistik', 'collecting_docs', now() + interval '12 days', 4500, 'normal', 'Demo başvuru'
+from public.customers where name = 'Ayşe Korkmaz' limit 1;
+insert into public.applications (customer_id, country, visa_type, stage, appointment_at, service_fee, priority)
+select id, 'Amerika', 'B1/B2', 'appointment_set', now() + interval '5 days', 7500, 'high'
+from public.customers where name = 'Burak Aydın' limit 1;
+insert into public.applications (customer_id, country, visa_type, stage, service_fee)
+select id, 'İngiltere', 'Student', 'submitted', 5000
+from public.customers where name = 'Selin Çelik' limit 1;
+
+insert into public.application_documents (application_id, name, collected, sort)
+select a.id, d.name, (a.stage <> 'on_review' and d.sort <= 3), d.sort
+from public.applications a
+cross join (values
+  ('Pasaport', 1), ('Biyometrik fotoğraf', 2), ('Banka dökümü', 3),
+  ('Seyahat sigortası', 4), ('Otel rezervasyonu', 5), ('Uçak bileti rezervasyonu', 6)
+) as d(name, sort);
+
+insert into public.tasks (title, due_at, related_type) values
+  ('Ayşe Korkmaz - vize yenileme araması', current_date, 'customer'),
+  ('Elif Demir - teklif gönder', current_date, 'lead'),
+  ('Konsolosluk randevu teyidi', current_date + 2, 'application');
