@@ -34,23 +34,6 @@ export default function Contact() {
       return;
     }
     setError("");
-    // save the lead to the CRM (best-effort — never block the user)
-    try {
-      await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: form.name,
-          phone: form.phone,
-          email: form.email,
-          visa: form.visa,
-          note: form.note,
-          source: "website",
-        }),
-      });
-    } catch {
-      // ignore — WhatsApp still opens below
-    }
     const msg =
       `Yeni Ön Başvuru · VDM Vize\n` +
       `———————————————\n` +

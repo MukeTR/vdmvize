@@ -1,41 +1,33 @@
-# VDM Vize — Yayına Alma (Deploy)
+# VDM Vize — Yayına Alma (Hostinger / statik)
 
-Bu bir **Next.js 16 sunucu uygulaması**dır (SSR + server actions + API routes + Supabase CRM).
-Statik/paylaşımlı hosting'te (ör. Hostinger web hosting) **çalışmaz** — CSS/JS yüklenmez, form
-ve CRM çalışmaz. Node.js çalıştıran bir platform gerekir.
+Site artık **tamamen statik** olarak dışa aktarılır (`output: "export"`). Sunucu, Node.js
+veya veritabanı gerektirmez — Hostinger'ın paylaşımlı web hosting'inde sorunsuz çalışır.
+İletişim formu doğrudan WhatsApp'a yönlendirir (arka uç yok).
 
-## Önerilen: Vercel (ücretsiz, repo'ya bağlı)
+> CRM (Supabase + /admin) bu projeden çıkarıldı; ileride ayrı yapılacak. Kod git geçmişinde
+> `f770e90` commit'inde duruyor.
 
-1. **Bulut Supabase projesi aç** (supabase.com) — lokal Supabase sadece geliştirme içindir.
-2. Supabase panelinde SQL Editor'de sırayla çalıştır:
-   - `supabase/migrations/20260704090000_crm_schema.sql`
-   - `supabase/migrations/20260704120000_crm_v2.sql`
-   - (opsiyonel demo veri için `supabase/seed.sql`)
-   - Extensions'tan **pg_cron**'u aç.
-3. Supabase → Project Settings → API'den değerleri al.
-4. **Vercel'de** `MukeTR/vdmvize` reposunu import et. Framework otomatik "Next.js" gelir.
-5. Vercel → Settings → Environment Variables:
+## Adımlar
+
+1. Projede build al:
+   ```bash
+   npm install
+   npm run build
    ```
-   NEXT_PUBLIC_SUPABASE_URL       = https://<proje>.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY  = <publishable / anon key>
-   SUPABASE_SERVICE_ROLE_KEY      = <secret / service_role key>
-   CRON_SECRET                    = <rastgele güçlü bir dize>
-   DIGEST_TO                      = vize@vdmturizm.com
-   RESEND_API_KEY                 = <resend.com api key>   (e-posta digest için)
-   RESEND_FROM                    = VDM CRM <no-reply@vdmturizm.com>
-   ```
-6. Deploy. `vercel.json` her sabah 06:00'da `/api/cron/daily-digest`'i çağırır
-   (Vercel Cron, `CRON_SECRET`'i Authorization başlığıyla otomatik gönderir).
-7. Domain: Vercel → Domains'ten `vdmturizm.com` / `www.vdmturizm.com` ekle, DNS'i yönlendir.
+   Bu, `out/` klasörünü üretir (tüm HTML, CSS, JS, sitemap.xml, robots.txt).
 
-## Alternatifler
+2. **`out/` klasörünün İÇİNDEKİLERİNİ** Hostinger'da sitenin kök dizinine yükle
+   (genelde `public_html/`). Yani `out/index.html` → `public_html/index.html` olacak şekilde
+   (out klasörünü değil, içindekileri).
+   - hPanel → Dosya Yöneticisi ile sürükle-bırak, veya FTP.
 
-- **Netlify** (Next.js runtime ile) veya **Railway / Render** (Node): benzer şekilde repo + env.
-- **Hostinger VPS** (paylaşımlı DEĞİL): sunucuda `npm ci && npm run build && npm run start`,
-  PM2 + Nginx reverse proxy, env değişkenleri `.env`. Cron için Hostinger cron → `curl -H "x-cron-secret: <CRON_SECRET>" https://<domain>/api/cron/daily-digest`.
+3. Bitti. `https://vdmturizm.com` açıldığında site stiller yüklü şekilde gelir.
 
 ## Notlar
 
-- Site içi linkler relative, kanonik adres `https://www.vdmturizm.com` (robots/sitemap öyle).
-  Yayına alınca `vdmturizm.com → https://www.vdmturizm.com` 301 yönlendirmesini bir kez kur.
-- `.env.local` yalnızca lokal içindir, repoya girmez.
+- URL'ler klasör/`index.html` yapısında (`trailingSlash: true`) — Apache ile en uyumlusu.
+- Domain: Hostinger'da `vdmturizm.com` → `www.vdmturizm.com` (301) yönlendirmesini bir kez
+  tanımla (robots/sitemap `https://www.vdmturizm.com` kanonik adresini kullanıyor).
+- HTTPS: Hostinger'ın ücretsiz SSL'ini etkinleştir.
+- İçerik güncelleme: metinler `lib/` altında (site.ts, content.ts, articles.ts, corporate.ts).
+  Değiştir → `npm run build` → yeni `out/`'u tekrar yükle.
