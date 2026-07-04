@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { site, whatsappLink } from "@/lib/site";
 import { WaIcon, PhoneIcon, Arrow } from "@/components/ui/Cta";
+import FlipCode from "@/components/FlipCode";
 
 const VISA_OPTIONS = [
   "Schengen (Fransa, Almanya, İtalya…)",
@@ -85,7 +86,7 @@ export default function Contact() {
               <div className="flex-1 border-t border-dashed border-white/25" />
               <WaIcon className="h-4 w-4 text-[color:var(--color-gold)]" />
               <div className="flex-1 border-t border-dashed border-white/25" />
-              <div className="ticket text-3xl font-bold text-[color:var(--color-cloud-night)]">DÜNYA</div>
+              <FlipCode className="ticket text-3xl font-bold text-[color:var(--color-cloud-night)]" />
             </div>
 
             <p className="mt-6 text-sm leading-relaxed text-[color:var(--color-mist-night)]">
