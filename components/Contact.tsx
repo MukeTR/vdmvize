@@ -27,13 +27,30 @@ export default function Contact() {
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim() || !form.phone.trim() || !form.visa) {
       setError("Lütfen adınızı, telefonunuzu ve vize türünü doldurun.");
       return;
     }
     setError("");
+    // save the lead to the CRM (best-effort — never block the user)
+    try {
+      await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          email: form.email,
+          visa: form.visa,
+          note: form.note,
+          source: "website",
+        }),
+      });
+    } catch {
+      // ignore — WhatsApp still opens below
+    }
     const msg =
       `Yeni Ön Başvuru · VDM Vize\n` +
       `———————————————\n` +

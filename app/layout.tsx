@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Sora, Inter, Space_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import MobileBar from "@/components/MobileBar";
 
 const playfair = Playfair_Display({
   variable: "--font-serif-logo",
@@ -67,12 +64,7 @@ export default function RootLayout({
       lang="tr"
       className={`${sora.variable} ${inter.variable} ${spaceMono.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full">
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <MobileBar />
-      </body>
+      <body className="min-h-full">{children}</body>
     </html>
   );
 }
